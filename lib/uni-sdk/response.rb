@@ -3,6 +3,7 @@ module Uni
     @@request_id_header_key = 'x-uni-request-id'
 
     attr_reader :raw, :status, :request_id, :code, :message, :data
+    attr_accessor :valid
 
     def initialize(response)
         @raw = response
@@ -13,6 +14,7 @@ module Uni
         @code = @body['code']
         @message = @body['message']
         @data = @body['data']
+        @valid = false
 
         if @status < 200 || @status >= 300 || @code != '0'
           raise UniError.new(@message || response.reason_phrase, self)

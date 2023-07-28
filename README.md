@@ -32,6 +32,21 @@ gem 'uni-sdk'
 
 The following example shows how to use the Unimatrix Ruby SDK to interact with Unimatrix services.
 
+### Initialize a client
+
+```ruby
+require 'uni-sdk'
+
+client = Uni::Client.new('your access key id', 'your access key secret')
+```
+
+or you can configure your credentials by environment variables:
+
+```sh
+export UNIMTX_ACCESS_KEY_ID=your_access_key_id
+export UNIMTX_ACCESS_KEY_SECRET=your_access_key_secret
+```
+
 ### Send SMS
 
 Send a text message to a single recipient.
@@ -44,15 +59,44 @@ client = Uni::Client.new('your access key id', 'your access key secret')
 
 begin
   resp = client.messages.send({
-    to: 'your phone number', # in E.164 format
-    signature: 'your sender name',
-    content: 'Your verification code is 2048.'
+    to: '+1206880xxxx', # in E.164 format
+    text: 'Your verification code is 2048.'
   })
   puts resp.data
 rescue Uni::UniError => e
   puts 'Exception: ' + e.message
 end
+```
 
+### Send verification code
+
+Send a one-time passcode (OTP) to a recipient. The following example will automatically generate a verification code.
+
+```ruby
+require 'uni-sdk'
+
+client = Uni::Client.new()
+
+resp = client.otp.send({
+  to: '+1206880xxxx'
+})
+puts resp.data
+```
+
+### Check verification code
+
+Verify the one-time passcode (OTP) that a user provided. The following example will check whether the user-provided verification code is correct.
+
+```ruby
+require 'uni-sdk'
+
+client = Uni::Client.new()
+
+resp = client.otp.verify({
+  to: '+1206880xxxx',
+  code: '123456' # the code user provided
+})
+puts resp.valid
 ```
 
 ## Reference

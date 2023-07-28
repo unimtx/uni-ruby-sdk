@@ -9,9 +9,9 @@ module Uni
         attr_accessor :access_key_id, :access_key_secret, :endpoint, :signing_algorithm
 
         def initialize(access_key_id=nil, access_key_secret=nil, endpoint=nil, signing_algorithm=nil)
-            @access_key_id = access_key_id
-            @access_key_secret = access_key_secret
-            @endpoint = endpoint || @@default_endpoint
+            @access_key_id = access_key_id || ENV['UNIMTX_ACCESS_KEY_ID']
+            @access_key_secret = access_key_secret || ENV['UNIMTX_ACCESS_KEY_SECRET']
+            @endpoint = endpoint || ENV['UNIMTX_ENDPOINT'] || @@default_endpoint
             @signing_algorithm = signing_algorithm || @@default_signing_algorithm
             @user_agent = @@name + '/' + Uni::VERSION
         end
@@ -57,6 +57,10 @@ module Uni
 
         def messages()
             Uni::Modal::Message.new(self)
+        end
+
+        def otp()
+            Uni::Modal::Otp.new(self)
         end
     end
 end
