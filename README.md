@@ -52,10 +52,9 @@ export UNIMTX_ACCESS_KEY_SECRET=your_access_key_secret
 Send a text message to a single recipient.
 
 ```ruby
-
 require 'uni-sdk'
 
-client = Uni::Client.new('your access key id', 'your access key secret')
+client = Uni::Client.new()
 
 begin
   resp = client.messages.send({
@@ -70,7 +69,7 @@ end
 
 ### Send verification code
 
-Send a one-time passcode (OTP) to a recipient. The following example will automatically generate a verification code.
+Send a one-time passcode (OTP) to a recipient. The following example will send a automatically generated verification code to the user.
 
 ```ruby
 require 'uni-sdk'
